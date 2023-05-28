@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterschool_bookshop_app/navigator_action.dart';
 import '../widgets/main_button.dart';
 
 class GettingStartPage extends StatelessWidget {
@@ -63,7 +64,12 @@ class GettingStartPage extends StatelessWidget {
             MainButton(
               title: "ຫາປື້ມທີ່ທ່ານມັກ",
               onPressed: () {
-                print("object");
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const NaviagtorAction(),
+                  ),
+                );
               },
             ),
           ],
