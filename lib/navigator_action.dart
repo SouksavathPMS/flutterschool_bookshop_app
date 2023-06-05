@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterschool_bookshop_app/common/get_appbar.dart';
 import 'package:flutterschool_bookshop_app/constants/constant_colors.dart';
 import 'package:flutterschool_bookshop_app/screens/category_screen.dart';
 import 'package:flutterschool_bookshop_app/screens/favorite_screen.dart';
@@ -26,7 +27,11 @@ class _NaviagtorActionState extends State<NaviagtorAction> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _currentScreen.elementAt(_currentIndex),
+      appBar: GetAppBar.instance.getAppbar(currentPage: _currentIndex),
+      body: IndexedStack(
+        index: _currentIndex,
+        children: _currentScreen,
+      ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30),
         child: SalomonBottomBar(
