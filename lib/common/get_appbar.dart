@@ -25,12 +25,12 @@ class GetAppBar {
             centerTitle: false,
             title: Column(
               children: [
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
+                      children: [
                         Text(
                           "ສະບາຍດີ",
                           style: TextStyle(
@@ -49,7 +49,7 @@ class GetAppBar {
                         SizedBox(height: 4)
                       ],
                     ),
-                    const CustomCartBadge()
+                    CustomCartBadge()
                   ],
                 ),
                 const SizedBox(height: 8),
@@ -94,9 +94,9 @@ class GetAppBar {
           preferredSize: const Size.fromHeight(70.0), // here the desired height
           child: AppBar(
             centerTitle: false,
-            title: Row(
+            title: const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
+              children: [
                 Text(
                   "ໝວດໝູ່",
                   style: TextStyle(
@@ -114,9 +114,9 @@ class GetAppBar {
           preferredSize: const Size.fromHeight(70.0), // here the desired height
           child: AppBar(
             centerTitle: false,
-            title: Row(
+            title: const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
+              children: [
                 Text(
                   "ປື້ມທີ່ມັກ",
                   style: TextStyle(
@@ -158,9 +158,9 @@ class GetAppBar {
                   ),
                 ),
                 const SizedBox(width: 12),
-                Column(
+                const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     // SizedBox(height: 12),
                     Text(
                       "ປື້ມທີ່ມັກ",
