@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterschool_bookshop_app/widgets/filtered_books_section.dart';
 
 import '../common/custom_title.dart';
 import '../constants/constant_colors.dart';
@@ -13,6 +14,7 @@ class HomeScreen extends StatelessWidget {
     return SingleChildScrollView(
       padding: const EdgeInsets.only(right: 12, left: 12),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -144,7 +146,9 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
-          )
+          ),
+          const SizedBox(height: 12),
+          const FilteredBooksSection(),
         ],
       ),
     );
