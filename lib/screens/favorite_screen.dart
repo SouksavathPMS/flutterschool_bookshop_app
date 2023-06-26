@@ -5,6 +5,8 @@ import 'package:flutterschool_bookshop_app/constants/constant_colors.dart';
 import 'package:flutterschool_bookshop_app/widgets/main_button.dart';
 import 'package:flutterschool_bookshop_app/widgets/slide_card_item.dart';
 
+import '../pages/book_detail_page.dart';
+
 class FavoriteScreen extends StatefulWidget {
   const FavoriteScreen({super.key});
 
@@ -39,9 +41,19 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                 ),
                 Stack(
                   children: [
-                    BookCardItem(
-                      width: width * .96,
-                      isHasBottomSection: true,
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const BookDetailPage(),
+                          ),
+                        );
+                      },
+                      child: BookCardItem(
+                        width: width * .96,
+                        isHasBottomSection: true,
+                      ),
                     ),
                     Positioned(
                       right: 6,

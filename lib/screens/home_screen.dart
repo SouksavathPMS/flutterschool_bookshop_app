@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutterschool_bookshop_app/pages/recommed_books_page.dart';
 import 'package:flutterschool_bookshop_app/widgets/filtered_books_section.dart';
 
 import '../common/custom_title.dart';
 import '../constants/constant_colors.dart';
+import '../pages/book_detail_page.dart';
 import '../widgets/slide_card_item.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -22,7 +24,14 @@ class HomeScreen extends StatelessWidget {
             children: [
               const CustomTitle(title: "ປື້ມແນະນຳ"),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const RecommededBooksPage(),
+                    ),
+                  );
+                },
                 child: Text(
                   "ທັງໝົດ",
                   style: TextStyle(
@@ -43,7 +52,16 @@ class HomeScreen extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               itemCount: 8,
               separatorBuilder: (context, index) => const SizedBox(width: 10),
-              itemBuilder: (context, index) => BookCardItem(width: width),
+              itemBuilder: (context, index) => GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const BookDetailPage(),
+                      ),
+                    );
+                  },
+                  child: BookCardItem(width: width)),
             ),
           ),
           const SizedBox(height: 12),
