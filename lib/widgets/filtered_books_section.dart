@@ -63,9 +63,7 @@ class _FilteredBooksSectionState extends State<FilteredBooksSection> {
                                   ? ConstantColor.primaryColor.withOpacity(.1)
                                   : Theme.of(context).scaffoldBackgroundColor,
                               onSelected: (seletedtypeOfBook) {
-                                final select =
-                                    seletedtypeOfBook ? item : TypeOfBooks.all;
-                                bookBloc.setTypeOfBook.add(select);
+                                bookBloc.setTypeOfBook.add(item);
                               },
                               selected: currentTypeOfBooks == item,
                             ),
