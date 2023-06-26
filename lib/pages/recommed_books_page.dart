@@ -3,18 +3,23 @@ import 'package:flutterschool_bookshop_app/constants/constant_colors.dart';
 
 import '../common/custom_cart_badge.dart';
 import '../constants/constant_font_size.dart';
+import '../models/book_model.dart';
 import '../widgets/slide_card_item.dart';
+import 'book_detail_page.dart';
 
 class RecommededBooksPage extends StatefulWidget {
-  const RecommededBooksPage({super.key});
+  const RecommededBooksPage({
+    super.key,
+    required this.bookRecommdedList,
+  });
+
+  final Iterable<BookModel> bookRecommdedList;
 
   @override
   State<RecommededBooksPage> createState() => _RecommededBooksPageState();
 }
 
 class _RecommededBooksPageState extends State<RecommededBooksPage> {
-  final bookCheckList = List.generate(3, (index) => false);
-
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -47,15 +52,28 @@ class _RecommededBooksPageState extends State<RecommededBooksPage> {
             const EdgeInsets.only(top: 10, right: 12, left: 12, bottom: 80),
         shrinkWrap: true,
         itemBuilder: (context, index) {
-          return SizedBox(
-            height: 170,
-            child: BookCardItem(
-              width: width * .96,
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => BookDetailPage(
+                    bookId: widget.bookRecommdedList.elementAt(index).id,
+                  ),
+                ),
+              );
+            },
+            child: SizedBox(
+              height: 170,
+              child: BookCardItem(
+                width: width * .96,
+                bookDetail: widget.bookRecommdedList.elementAt(index),
+              ),
             ),
           );
         },
         separatorBuilder: (context, index) => const SizedBox(height: 10),
-        itemCount: bookCheckList.length,
+        itemCount: widget.bookRecommdedList.length,
       ),
     );
   }

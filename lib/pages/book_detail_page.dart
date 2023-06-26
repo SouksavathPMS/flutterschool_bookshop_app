@@ -1,13 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutterschool_bookshop_app/hive_models/add_fav_model.dart';
+import 'package:flutterschool_bookshop_app/utils/utils.dart';
 
 import '../common/custom_cart_badge.dart';
 import '../constants/constant_colors.dart';
 import '../constants/constant_font_size.dart';
+import '../constants/dummy_data.dart';
+import '../constants/hive_box.dart';
+import '../models/book_model.dart';
+import '../services/local_database_service.dart';
 import '../widgets/main_button.dart';
 
 class BookDetailPage extends StatefulWidget {
-  const BookDetailPage({super.key});
+  const BookDetailPage({
+    super.key,
+    this.bookId = "c607cd7b-30c1-4d65-9cc7-35a4865c5212",
+  });
+
+  final String bookId;
 
   @override
   State<BookDetailPage> createState() => _BookDetailPageState();
@@ -19,6 +30,10 @@ class _BookDetailPageState extends State<BookDetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    final aBook = DummyData.booksList
+        .map((item) => BookModel.fromJson(item))
+        .toList()
+        .firstWhere((element) => element.id == widget.bookId);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -48,8 +63,8 @@ class _BookDetailPageState extends State<BookDetailPage> {
                 children: [
                   Expanded(
                     flex: 5,
-                    child: Image.asset(
-                      "assets/images/book_sample.png",
+                    child: Image.network(
+                      aBook.imageUrl,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -63,9 +78,9 @@ class _BookDetailPageState extends State<BookDetailPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           // crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            const Text(
-                              "ຄວາມຮູ້",
-                              style: TextStyle(
+                            Text(
+                              aBook.category.value,
+                              style: const TextStyle(
                                 color: ConstantColor.grey,
                                 fontSize: ConstantFontSize.headerSize6,
                                 // height: 1.2,
@@ -74,7 +89,7 @@ class _BookDetailPageState extends State<BookDetailPage> {
                             Row(
                               children: [
                                 ...List.generate(
-                                  4,
+                                  aBook.rating,
                                   (index) => ConstrainedBox(
                                     constraints: const BoxConstraints(
                                       maxWidth: 14,
@@ -91,13 +106,13 @@ class _BookDetailPageState extends State<BookDetailPage> {
                           ],
                         ),
                         const SizedBox(height: 6),
-                        const Flexible(
+                        Flexible(
                           child: SizedBox(
                             child: Text(
-                              'Birnam Wood, by Eleanor Catton',
+                              '${aBook.title}, by ${aBook.author}',
                               overflow: TextOverflow.ellipsis,
                               maxLines: 6,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: ConstantColor.grey,
                                 fontWeight: FontWeight.bold,
                                 fontSize: ConstantFontSize.headerSize3,
@@ -109,17 +124,17 @@ class _BookDetailPageState extends State<BookDetailPage> {
                         const SizedBox(height: 6),
                         const Spacer(),
                         RichText(
-                          text: const TextSpan(
+                          text: TextSpan(
                             text: "ລາຄາ : ",
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontFamily: "NotoSansLao",
                               color: ConstantColor.grey,
                               fontSize: ConstantFontSize.headerSize3,
                             ),
                             children: [
                               TextSpan(
-                                text: "150,000 LAK",
-                                style: TextStyle(
+                                text: "${Utils.getCurrency(aBook.price)} LAK",
+                                style: const TextStyle(
                                   fontFamily: "NotoSansLao",
                                   color: ConstantColor.grey,
                                   fontSize: ConstantFontSize.headerSize3,
@@ -176,10 +191,19 @@ class _BookDetailPageState extends State<BookDetailPage> {
                               ],
                             ),
                             GestureDetector(
-                              onTap: () {
+                              onTap: () async {
                                 setState(() {
                                   isFav = !isFav;
                                 });
+                                if (isFav) {
+                                  final addFavInfo =
+                                      AddFavModel(bookId: widget.bookId);
+                                  await LocalDatabaseService.instance
+                                      .add<AddFavModel>(
+                                          HiveBox.addFav, addFavInfo);
+                                } else {
+                                  
+                                }
                               },
                               child: Icon(
                                 Icons.favorite,
@@ -220,12 +244,12 @@ class _BookDetailPageState extends State<BookDetailPage> {
                     color: ConstantColor.grey.withOpacity(.5),
                   ),
                 ),
-                const Flexible(
+                Flexible(
                   child: Text(
-                    ' An atomic habit is a little habit that is part of a larger system. Just as atoms are the building blocks of molecules, atomic habits are the building blocks of remarkable results. James Clear',
+                    ' ${aBook.smallDetail}',
                     overflow: TextOverflow.ellipsis,
                     maxLines: 4,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: ConstantColor.grey,
                       fontSize: ConstantFontSize.headerSize4,
                       height: 1.2,
@@ -235,11 +259,11 @@ class _BookDetailPageState extends State<BookDetailPage> {
               ],
             ),
             const SizedBox(height: 10),
-            const Text(
-              '  The book offers this approach —without thinking much about the goal, focus on the system. The idea is not new, but it’s quite detailed in the book. Small changes often appear to make no difference until you cross a critical threshold. The most powerful outcomes of any compounding process are delayed. You need to be patient.Atomic Habits: Tiny Changes, Remarkable ResultsJames Clear. It equally applies to learning a new language, eating healthy, career transitioning, working out, writing a book, and managing a household. When you are focused on the goal, improvements are temporary. If you want to maintain this improvement, it should become part of who you are. The book offers this approach —without thinking much about the goal, focus on the system. The idea is not new, but it’s quite detailed in the book. Small changes often appear to make no difference until you cross a critical threshold. The most powerful outcomes of any compounding process are delayed. You need to be patient.Atomic Habits: Tiny Changes, Remarkable ResultsJames Clear. It equally applies to learning a new language, eating healthy, career transitioning, working out, writing a book, and managing a household. When you are focused on the goal, improvements are temporary. If you want to maintain this improvement, it should become part of who you are.',
+            Text(
+              '  ${aBook.description}',
               overflow: TextOverflow.ellipsis,
               maxLines: 100,
-              style: TextStyle(
+              style: const TextStyle(
                 color: ConstantColor.grey,
                 fontSize: ConstantFontSize.headerSize4,
                 height: 1.2,

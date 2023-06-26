@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutterschool_bookshop_app/constants/enums.dart';
-import 'package:flutterschool_bookshop_app/models/booktype_model_test.dart';
+import 'package:flutterschool_bookshop_app/models/book_model.dart';
 
 import '../common/custom_cart_badge.dart';
 import '../constants/constant_colors.dart';
 import '../constants/constant_font_size.dart';
+import '../utils/utils.dart';
 import 'book_detail_page.dart';
 
 class CategoryDetailPage extends StatelessWidget {
@@ -15,7 +16,7 @@ class CategoryDetailPage extends StatelessWidget {
   });
 
   final TypeOfBooks typeOfBooks;
-  final List<BookTypeModelTest> bookList;
+  final List<BookModel> bookList;
 
   @override
   Widget build(BuildContext context) {
@@ -67,8 +68,10 @@ class CategoryDetailPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    child: Image.asset(
-                      "assets/images/book_sample.png",
+                    height: 156,
+                    child: Image.network(
+                      aBook.imageUrl,
+                      fit: BoxFit.cover,
                     ),
                   ),
                   const SizedBox(height: 5.5),
@@ -77,18 +80,15 @@ class CategoryDetailPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        aBook.bookType.value,
+                        aBook.category.value,
                         style: const TextStyle(
                           color: ConstantColor.grey,
                           fontSize: ConstantFontSize.headerSize6,
-                          height: 1.2,
+                          // height: 1.2,
                         ),
                       ),
                       Text(
-                        aBook.bookType.value +
-                            aBook.bookType.name +
-                            aBook.bookType.value +
-                            aBook.bookType.name,
+                        aBook.title,
                         maxLines: 2,
                         style: const TextStyle(
                           overflow: TextOverflow.ellipsis,
@@ -99,7 +99,7 @@ class CategoryDetailPage extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        aBook.bookType.value,
+                        "${Utils.getCurrency(aBook.price)} LAK",
                         style: const TextStyle(
                           color: ConstantColor.grey,
                           fontSize: ConstantFontSize.headerSize5,

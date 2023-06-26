@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterschool_bookshop_app/constants/dummy_data.dart';
 import 'package:flutterschool_bookshop_app/constants/enums.dart';
-import 'package:flutterschool_bookshop_app/models/booktype_model_test.dart';
+import 'package:flutterschool_bookshop_app/models/book_model.dart';
 import 'package:flutterschool_bookshop_app/pages/category_detail_page.dart';
 
 import '../widgets/category_item.dart';
@@ -35,10 +35,10 @@ class CategoryScreen extends StatelessWidget {
             TypeOfBooks.relax,
           ];
           return CategoryItem(
-            amount: DummyData.textBookType
-                .map((item) => BookTypeModelTest.fromMap(item))
+            amount: DummyData.booksList
+                .map((item) => BookModel.fromJson(item))
                 .toList()
-                .where((element) => element.bookType == typeOfBookList[index])
+                .where((element) => element.category == typeOfBookList[index])
                 .toList()
                 .length,
             imagePath: imagePathList[index],
@@ -47,11 +47,11 @@ class CategoryScreen extends StatelessWidget {
               Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => CategoryDetailPage(
                   typeOfBooks: typeOfBookList[index],
-                  bookList: DummyData.textBookType
-                      .map((item) => BookTypeModelTest.fromMap(item))
+                  bookList: DummyData.booksList
+                      .map((item) => BookModel.fromJson(item))
                       .toList()
                       .where((element) =>
-                          element.bookType == typeOfBookList[index])
+                          element.category == typeOfBookList[index])
                       .toList(),
                 ),
               ));

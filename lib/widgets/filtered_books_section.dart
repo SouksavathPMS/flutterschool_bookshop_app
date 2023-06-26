@@ -4,8 +4,10 @@ import 'package:flutterschool_bookshop_app/constants/constant_colors.dart';
 import 'package:flutterschool_bookshop_app/constants/constant_font_size.dart';
 import 'package:flutterschool_bookshop_app/constants/dummy_data.dart';
 import 'package:flutterschool_bookshop_app/constants/enums.dart';
-import 'package:flutterschool_bookshop_app/models/booktype_model_test.dart';
+import 'package:flutterschool_bookshop_app/models/book_model.dart';
 import 'package:flutterschool_bookshop_app/pages/book_detail_page.dart';
+
+import '../utils/utils.dart';
 
 class FilteredBooksSection extends StatefulWidget {
   const FilteredBooksSection({super.key});
@@ -20,9 +22,8 @@ class _FilteredBooksSectionState extends State<FilteredBooksSection> {
   @override
   void initState() {
     bookBloc = BookBloc(
-      books: DummyData.textBookType
-          .map((item) => BookTypeModelTest.fromMap(item))
-          .toList(),
+      books:
+          DummyData.booksList.map((item) => BookModel.fromJson(item)).toList(),
     );
     super.initState();
   }
@@ -76,7 +77,7 @@ class _FilteredBooksSectionState extends State<FilteredBooksSection> {
               );
             }),
         const SizedBox(height: 10),
-        StreamBuilder<Iterable<BookTypeModelTest>>(
+        StreamBuilder<Iterable<BookModel>>(
           stream: bookBloc.books,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
@@ -97,7 +98,8 @@ class _FilteredBooksSectionState extends State<FilteredBooksSection> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const BookDetailPage(),
+                            builder: (context) =>
+                                BookDetailPage(bookId: aBook.id),
                           ),
                         );
                       },
@@ -105,8 +107,10 @@ class _FilteredBooksSectionState extends State<FilteredBooksSection> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(
-                            child: Image.asset(
-                              "assets/images/book_sample.png",
+                            height: 156,
+                            child: Image.network(
+                              aBook.imageUrl,
+                              fit: BoxFit.fitWidth,
                             ),
                           ),
                           const SizedBox(height: 5.5),
@@ -115,18 +119,15 @@ class _FilteredBooksSectionState extends State<FilteredBooksSection> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                aBook.bookType.value,
+                                aBook.category.value,
                                 style: const TextStyle(
                                   color: ConstantColor.grey,
                                   fontSize: ConstantFontSize.headerSize6,
-                                  height: 1.2,
+                                  // height: 1,
                                 ),
                               ),
                               Text(
-                                aBook.bookType.value +
-                                    aBook.bookType.name +
-                                    aBook.bookType.value +
-                                    aBook.bookType.name,
+                                aBook.title,
                                 maxLines: 2,
                                 style: const TextStyle(
                                   overflow: TextOverflow.ellipsis,
@@ -137,7 +138,7 @@ class _FilteredBooksSectionState extends State<FilteredBooksSection> {
                                 ),
                               ),
                               Text(
-                                aBook.bookType.value,
+                                "${Utils.getCurrency(aBook.price)} LAK",
                                 style: const TextStyle(
                                   color: ConstantColor.grey,
                                   fontSize: ConstantFontSize.headerSize5,

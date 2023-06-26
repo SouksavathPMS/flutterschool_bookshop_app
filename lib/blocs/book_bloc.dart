@@ -1,10 +1,10 @@
 import 'package:flutterschool_bookshop_app/constants/enums.dart';
-import 'package:flutterschool_bookshop_app/models/booktype_model_test.dart';
+import 'package:flutterschool_bookshop_app/models/book_model.dart';
 import 'package:rxdart/rxdart.dart';
 
 class BookBloc {
   final Stream<TypeOfBooks?> currentType;
-  final Stream<Iterable<BookTypeModelTest>> books;
+  final Stream<Iterable<BookModel>> books;
   final Sink<TypeOfBooks?> setTypeOfBook;
 
   const BookBloc._({
@@ -18,16 +18,15 @@ class BookBloc {
   }
 
   factory BookBloc({
-    required Iterable<BookTypeModelTest> books,
+    required Iterable<BookModel> books,
   }) {
     final typeOfBook = BehaviorSubject<TypeOfBooks?>();
-    final filteredBooks =
-        typeOfBook.map<Iterable<BookTypeModelTest>>((typeOfBook) {
+    final filteredBooks = typeOfBook.map<Iterable<BookModel>>((typeOfBook) {
       if (typeOfBook != null) {
         if (typeOfBook == TypeOfBooks.all) {
           return books;
         } else {
-          return books.where((element) => element.bookType == typeOfBook);
+          return books.where((element) => element.category == typeOfBook);
         }
       } else {
         return books;

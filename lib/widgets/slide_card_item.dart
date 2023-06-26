@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutterschool_bookshop_app/models/book_model.dart';
 
 import '../constants/constant_colors.dart';
 import '../constants/constant_font_size.dart';
@@ -9,10 +10,12 @@ class BookCardItem extends StatefulWidget {
     super.key,
     required this.width,
     this.isHasBottomSection = false,
+    this.bookDetail,
   });
 
   final double width;
   final bool isHasBottomSection;
+  final BookModel? bookDetail;
 
   @override
   State<BookCardItem> createState() => _BookCardItemState();
@@ -54,8 +57,11 @@ class _BookCardItemState extends State<BookCardItem> {
                           ),
                         ],
                       ),
-                      child: Image.asset(
-                        "assets/images/book_sample.png",
+                      child: Image.network(
+                        
+                        widget.bookDetail == null
+                            ? "https://m.media-amazon.com/images/I/81bGKUa1e0L._AC_UF1000,1000_QL80_.jpg"
+                            : widget.bookDetail!.imageUrl,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -73,11 +79,13 @@ class _BookCardItemState extends State<BookCardItem> {
                         Flexible(
                           child: Container(
                             padding: const EdgeInsets.only(left: 3),
-                            child: const Text(
-                              'Birnam Wood, by Eleanor Catton',
+                            child: Text(
+                              widget.bookDetail == null
+                                  ? 'Birnam Wood, by Eleanor Catton'
+                                  : "${widget.bookDetail!.title}, by ${widget.bookDetail!.author}",
                               overflow: TextOverflow.ellipsis,
                               maxLines: 2,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: ConstantColor.grey,
                                 fontSize: ConstantFontSize.headerSize3,
                                 height: 1.2,
