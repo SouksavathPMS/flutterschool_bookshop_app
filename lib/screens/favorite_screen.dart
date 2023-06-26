@@ -56,6 +56,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                           },
                           child: Icon(
                             Icons.favorite,
+                            size: 30,
                             color: bookFavList[index]
                                 ? ConstantColor.primaryColor
                                 : ConstantColor.grey.withOpacity(.4),
