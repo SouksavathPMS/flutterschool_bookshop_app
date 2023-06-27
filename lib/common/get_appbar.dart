@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutterschool_bookshop_app/constants/constant_colors.dart';
 import 'package:flutterschool_bookshop_app/constants/constant_font_size.dart';
+import 'package:flutterschool_bookshop_app/notifier/page_notifier.dart';
+import 'package:provider/provider.dart';
 
+import '../blocs/search_bloc.dart';
+import '../constants/dummy_data.dart';
+import '../models/book_model.dart';
 import 'custom_cart_badge.dart';
 
 class GetAppBar {
@@ -13,6 +18,11 @@ class GetAppBar {
   GetAppBar._internal();
 
   PreferredSize getAppbar({required int currentPage}) {
+    final SearchBloc searchBloc = SearchBloc(
+        books: DummyData.booksList
+            .map((item) => BookModel.fromJson(item))
+            .toList());
+
     final formKey = GlobalKey<FormBuilderState>();
 
     switch (currentPage) {
@@ -53,37 +63,7 @@ class GetAppBar {
                   ],
                 ),
                 const SizedBox(height: 8),
-                FormBuilder(
-                  key: formKey,
-                  child: FormBuilderTextField(
-                    cursorColor: ConstantColor.grey,
-                    style: const TextStyle(color: ConstantColor.grey),
-                    decoration: InputDecoration(
-                      hintText: "ຄົ້ນຫາປື້ມ",
-                      hintStyle:
-                          TextStyle(color: ConstantColor.grey.withOpacity(.3)),
-                      prefixIcon: const Icon(
-                        Icons.search_rounded,
-                        size: 24,
-                      ),
-                      prefixIconConstraints:
-                          const BoxConstraints(maxHeight: 30, minWidth: 40),
-                      isDense: true,
-                      filled: true,
-                      hoverColor: Colors.blue.shade100,
-                      contentPadding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide.none,
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide.none,
-                      ),
-                    ),
-                    name: 'text',
-                  ),
-                ),
+                SearchField(formKey: formKey, searchBloc: searchBloc),
                 const SizedBox(height: 20),
               ],
             ),
@@ -163,14 +143,14 @@ class GetAppBar {
                   children: [
                     // SizedBox(height: 12),
                     Text(
-                      "ປື້ມທີ່ມັກ",
+                      "ລາຍການສັ່ງຊື້",
                       style: TextStyle(
                         color: ConstantColor.darkGrey,
                         fontSize: ConstantFontSize.headerSizeBig,
                       ),
                     ),
                     Text(
-                      "ມີປື້ມທີ່ທ່ານສົນໃຈໃນໃຈທ່ານ ຫຼື ຍັງ?",
+                      "ກຳລັງສັ່ງຊື້ & ສັ່ງຊື້ສຳເລັດ",
                       style: TextStyle(
                         color: ConstantColor.grey,
                         fontSize: ConstantFontSize.headerSize3,
@@ -180,6 +160,8 @@ class GetAppBar {
                     SizedBox(height: 8),
                   ],
                 ),
+                const Spacer(),
+                const CustomCartBadge()
               ],
             ),
           ),
@@ -190,5 +172,56 @@ class GetAppBar {
                 const Size.fromHeight(50.0), // here the desired height
             child: AppBar());
     }
+  }
+}
+
+class SearchField extends StatefulWidget {
+  const SearchField({
+    super.key,
+    required this.formKey,
+    required this.searchBloc,
+  });
+
+  final GlobalKey<FormBuilderState> formKey;
+  final SearchBloc searchBloc;
+
+  @override
+  State<SearchField> createState() => _SearchFieldState();
+}
+
+class _SearchFieldState extends State<SearchField> {
+  @override
+  Widget build(BuildContext context) {
+    return FormBuilder(
+      key: widget.formKey,
+      child: FormBuilderTextField(
+        onChanged: context.read<PageNotifier>().searchBloc.searchTerm.add,
+        cursorColor: ConstantColor.grey,
+        style: const TextStyle(color: ConstantColor.grey),
+        decoration: InputDecoration(
+          hintText: "ຄົ້ນຫາປື້ມ",
+          hintStyle: TextStyle(color: ConstantColor.grey.withOpacity(.3)),
+          prefixIcon: const Icon(
+            Icons.search_rounded,
+            size: 24,
+          ),
+          prefixIconConstraints:
+              const BoxConstraints(maxHeight: 30, minWidth: 40),
+          isDense: true,
+          filled: true,
+          hoverColor: Colors.blue.shade100,
+          contentPadding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide.none,
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide.none,
+          ),
+        ),
+        name: 'text',
+      ),
+    );
   }
 }

@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutterschool_bookshop_app/common/get_appbar.dart';
 import 'package:flutterschool_bookshop_app/constants/constant_colors.dart';
 import 'package:flutterschool_bookshop_app/constants/constant_font_size.dart';
-import 'package:flutterschool_bookshop_app/screens/category_screen.dart';
-import 'package:flutterschool_bookshop_app/screens/favorite_screen.dart';
-import 'package:flutterschool_bookshop_app/screens/home_screen.dart';
-import 'package:flutterschool_bookshop_app/screens/user_screen.dart';
+import 'package:flutterschool_bookshop_app/notifier/page_notifier.dart';
+import 'package:provider/provider.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
+
+import 'blocs/search_bloc.dart';
+import 'constants/dummy_data.dart';
+import 'models/book_model.dart';
 
 class NaviagtorAction extends StatefulWidget {
   const NaviagtorAction({super.key});
@@ -16,26 +18,35 @@ class NaviagtorAction extends StatefulWidget {
 }
 
 class _NaviagtorActionState extends State<NaviagtorAction> {
-  int _currentIndex = 0;
+  late final SearchBloc _searchBloc;
+  @override
+  void initState() {
+    super.initState();
+    _searchBloc = SearchBloc(
+        books: DummyData.booksList
+            .map((item) => BookModel.fromJson(item))
+            .toList());
+  }
 
-  final List<Widget> _currentScreen = [
-    const HomeScreen(),
-    const CategoryScreen(),
-    const FavoriteScreen(),
-    const UserScreen(),
-  ];
+  @override
+  void dispose() {
+    _searchBloc.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final pageProvider = context.watch<PageNotifier>();
     return Scaffold(
-      appBar: GetAppBar.instance.getAppbar(currentPage: _currentIndex),
-      body: _currentScreen[_currentIndex],
+      appBar:
+          GetAppBar.instance.getAppbar(currentPage: pageProvider.currentIndex),
+      body: pageProvider.currentScreen[pageProvider.currentIndex],
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: SalomonBottomBar(
           itemPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-          currentIndex: _currentIndex,
-          onTap: (i) => setState(() => _currentIndex = i),
+          currentIndex: pageProvider.currentIndex,
+          onTap: (i) => context.read<PageNotifier>().changePage(i),
           items: [
             /// Home
             SalomonBottomBarItem(

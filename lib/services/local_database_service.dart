@@ -2,6 +2,7 @@ import 'package:flutterschool_bookshop_app/hive_models/add_fav_model.dart';
 import 'package:flutterschool_bookshop_app/hive_models/add_to_cart_model.dart';
 import 'package:hive_flutter/adapters.dart';
 import '../constants/hive_box.dart';
+import '../hive_models/order_model.dart';
 
 typedef RegisterAdapter = void Function<T>(
   TypeAdapter<T> adapter, {
@@ -23,6 +24,7 @@ class LocalDatabaseService {
     // TODO: I think this path need to be more dynamic, so we can you this service in every projects
     Hive.registerAdapter(AddFavModelAdapter());
     Hive.registerAdapter(AddToCartModelAdapter());
+    Hive.registerAdapter(OrderModelAdapter());
 
     // open boxes
     // TODO: the same above
@@ -30,6 +32,7 @@ class LocalDatabaseService {
       [
         Hive.openBox<AddFavModel>(HiveBox.addFav.name),
         Hive.openBox<AddToCartModel>(HiveBox.addTocart.name),
+        Hive.openBox<OrderModel>(HiveBox.order.name),
       ],
     );
   }

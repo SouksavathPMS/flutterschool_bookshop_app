@@ -1,15 +1,22 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutterschool_bookshop_app/constants/constant_colors.dart';
 import 'package:flutterschool_bookshop_app/constants/hive_box.dart';
 import 'package:flutterschool_bookshop_app/dialogs/comfirm_delete_form_cart_dioalog.dart';
+import 'package:flutterschool_bookshop_app/dialogs/comfirm_order.dart';
 import 'package:flutterschool_bookshop_app/hive_models/add_to_cart_model.dart';
+import 'package:flutterschool_bookshop_app/hive_models/order_model.dart';
+import 'package:flutterschool_bookshop_app/notifier/page_notifier.dart';
 import 'package:flutterschool_bookshop_app/services/local_database_service.dart';
 import 'package:flutterschool_bookshop_app/utils/utils.dart';
 import 'package:flutterschool_bookshop_app/widgets/display_box_widget.dart';
 import 'package:hive/hive.dart';
+import 'package:provider/provider.dart';
 
 import '../constants/constant_font_size.dart';
 import '../constants/dummy_data.dart';
+import '../dialogs/generic_dialogs.dart';
 import '../models/book_model.dart';
 import '../widgets/main_button.dart';
 import '../widgets/slide_card_item.dart';
@@ -253,7 +260,49 @@ class _CartPageState extends State<CartPage> {
                         Expanded(
                           child: MainButton(
                             title: "ສຳເລັດການສັ່ງຊື້ຕາມທີ່ເລືອກ",
-                            onPressed: () {},
+                            onPressed: () async {
+                              final booksTobeOrder = bookCheckList
+                                  .where(
+                                      (element) => element[0] as bool == true)
+                                  .toList();
+
+                              final isComnform = await confirmOrder(context);
+
+                              if (!isComnform) {
+                                return;
+                              }
+
+                              for (var element in booksTobeOrder) {
+                                final order = OrderModel(
+                                  bookId: element[1].toString(),
+                                  price: element[3] as int,
+                                  amount: element[2] as int,
+                                  orderDate: DateTime.now().add(
+                                    const Duration(minutes: 1),
+                                  ),
+                                );
+                                await LocalDatabaseService.instance
+                                    .add<OrderModel>(HiveBox.order, order);
+                              }
+
+                              final isTrue = await showGenericDialog<bool>(
+                                  context: context,
+                                  title: "ສຳເລັດ",
+                                  content:
+                                      'ສັ່ງຊື້ສຳເລັດກົດ"ຕົກລົງ"ເພື່ອເບິ່ງລາຍລະອຽດ',
+                                  optionsBuilder: () => {
+                                        "ຍົກເລີກ": false,
+                                        "ຕົກລົງ": true,
+                                      });
+
+                              if (isTrue!) {
+                                Navigator.popUntil(
+                                    context, (route) => route.isFirst);
+                                context.read<PageNotifier>().changePage(3);
+                              } else {
+                                return;
+                              }
+                            },
                           ),
                         ),
                       ],
