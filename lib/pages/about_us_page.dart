@@ -128,6 +128,7 @@ class AboutUsPage extends StatelessWidget {
                         isSmall: true,
                         title: "ທ. ບຸນຖົມ ແພງສີ",
                         responsibility: "ສະມາຊິກ",
+                        imagePath: "assets/images/boun_thom.jpeg",
                       ),
                     ),
                     Expanded(child: SizedBox())

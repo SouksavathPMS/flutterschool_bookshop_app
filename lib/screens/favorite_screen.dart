@@ -6,11 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutterschool_bookshop_app/constants/constant_colors.dart';
 import 'package:flutterschool_bookshop_app/constants/hive_box.dart';
 import 'package:flutterschool_bookshop_app/dialogs/remove_fav_dialog.dart';
+import 'package:flutterschool_bookshop_app/notifier/page_notifier.dart';
 import 'package:flutterschool_bookshop_app/services/local_database_service.dart';
 import 'package:flutterschool_bookshop_app/widgets/display_box_widget.dart';
 import 'package:flutterschool_bookshop_app/widgets/main_button.dart';
 import 'package:flutterschool_bookshop_app/widgets/slide_card_item.dart';
 import 'package:hive/hive.dart';
+import 'package:provider/provider.dart';
 
 import '../constants/dummy_data.dart';
 import '../dialogs/generic_dialogs.dart';
@@ -31,7 +33,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   final bookCheckList = List.generate(
       Hive.box<AddFavModel>(HiveBox.addFav.name).values.length,
       (idx) => [
-            false,
+            true,
             Hive.box<AddFavModel>(HiveBox.addFav.name)
                 .values
                 .toList()[idx]
@@ -162,6 +164,17 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                         )
                         .toList();
 
+                    if (toAddList.isEmpty) {
+                      showGenericDialog<bool>(
+                          context: context,
+                          title: "ບໍ່ພົບຂໍ້ມູນ",
+                          content: 'ກະລຸນາເລືອກລາຍການປື້ມກ່ອນ',
+                          optionsBuilder: () => {
+                                "ຕົກລົງ": true,
+                              });
+                      return;
+                    }
+
                     for (var element in toAddList) {
                       final toAddToCartInfo = AddToCartModel(
                         bookId: element[1].toString(),
@@ -203,26 +216,24 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                       }
                     }
 
-                    final isTrue = await showGenericDialog<bool>(
+                    await showGenericDialog<bool>(
                         context: context,
                         title: "ສຳເລັດ",
-                        content:
-                            'ເພີ່ມເຂົ້າກະຕ່າສຳເລັດກົດ"ຕົກລົງ"ເພື່ອສຳເລັດການສັ່ງຊື້',
+                        content: 'ກວດສອບກະຕ່າຂອງທ່ານເພື່ອສຳເລັດການສັ່ງຊື້',
                         optionsBuilder: () => {
-                              "ຍົກເລີກ": false,
                               "ຕົກລົງ": true,
                             });
 
-                    if (isTrue!) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const CartPage(),
-                        ),
-                      );
-                    } else {
-                      return;
-                    }
+                    Navigator.popUntil(context, (route) => route.isFirst);
+                    context.read<PageNotifier>().changePage(0);
+                    context.read<PageNotifier>().changePage(2);
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const CartPage(),
+                      ),
+                    );
                   },
                 ),
               ),

@@ -11,7 +11,7 @@ class MainButton extends StatelessWidget {
   }) : super(key: key);
 
   final String title;
-  final Function onPressed;
+  final Function? onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -19,15 +19,16 @@ class MainButton extends StatelessWidget {
       height: 43,
       child: ElevatedButton(
         style: ButtonStyle(
-          backgroundColor:
-              MaterialStateProperty.all(ConstantColor.primaryColor),
+          backgroundColor: MaterialStateProperty.all(onPressed == null
+              ? ConstantColor.primaryColor.withOpacity(.3)
+              : ConstantColor.primaryColor),
           shape: MaterialStateProperty.all(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
           ),
         ),
-        onPressed: () => onPressed(),
+        onPressed: onPressed == null ? null : () => onPressed!(),
         child: Text(
           title,
           textAlign: TextAlign.center,

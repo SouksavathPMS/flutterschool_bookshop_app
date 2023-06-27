@@ -114,7 +114,6 @@ class _CartPageState extends State<CartPage> {
                               hiveBox: HiveBox.addTocart,
                               child: (context, data) {
                                 return Checkbox(
-                                  key: UniqueKey(),
                                   activeColor: ConstantColor.mainColor,
                                   value: bookCheckList[index][0] as bool,
                                   onChanged: (value) {
@@ -230,11 +229,19 @@ class _CartPageState extends State<CartPage> {
                             if (!isDelete) {
                               return;
                             }
-                            for (var element in toDeleteIndex) {
-                              LocalDatabaseService.instance
+                            for (var i in toDeleteIndex) {
+                              await LocalDatabaseService.instance
                                   .deleteAt<AddToCartModel>(
-                                      HiveBox.addTocart, element);
+                                      HiveBox.addTocart, i);
                             }
+                            Navigator.popUntil(
+                                context, (route) => route.isFirst);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const CartPage(),
+                              ),
+                            );
                           },
                           child: const Padding(
                             padding: EdgeInsets.symmetric(horizontal: 12),
@@ -260,49 +267,63 @@ class _CartPageState extends State<CartPage> {
                         Expanded(
                           child: MainButton(
                             title: "ສຳເລັດການສັ່ງຊື້ຕາມທີ່ເລືອກ",
-                            onPressed: () async {
-                              final booksTobeOrder = bookCheckList
-                                  .where(
-                                      (element) => element[0] as bool == true)
-                                  .toList();
+                            onPressed: data.isEmpty
+                                ? null
+                                : () async {
+                                    final booksTobeOrder = bookCheckList
+                                        .where((element) =>
+                                            element[0] as bool == true)
+                                        .toList();
 
-                              final isComnform = await confirmOrder(context);
+                                    if (booksTobeOrder.isEmpty) {
+                                      showGenericDialog<bool>(
+                                          context: context,
+                                          title: "ບໍ່ພົບຂໍ້ມູນ",
+                                          content: 'ກະລຸນາເລືອກລາຍການປື້ມກ່ອນ',
+                                          optionsBuilder: () => {
+                                                "ຕົກລົງ": true,
+                                              });
+                                      return;
+                                    }
 
-                              if (!isComnform) {
-                                return;
-                              }
+                                    final isComnform =
+                                        await confirmOrder(context);
 
-                              for (var element in booksTobeOrder) {
-                                final order = OrderModel(
-                                  bookId: element[1].toString(),
-                                  price: element[3] as int,
-                                  amount: element[2] as int,
-                                  orderDate: DateTime.now().add(
-                                    const Duration(minutes: 1),
-                                  ),
-                                );
-                                await LocalDatabaseService.instance
-                                    .add<OrderModel>(HiveBox.order, order);
-                              }
+                                    if (!isComnform) {
+                                      return;
+                                    }
 
-                              final isTrue = await showGenericDialog<bool>(
-                                  context: context,
-                                  title: "ສຳເລັດ",
-                                  content:
-                                      'ສັ່ງຊື້ສຳເລັດກົດ"ຕົກລົງ"ເພື່ອເບິ່ງລາຍລະອຽດ',
-                                  optionsBuilder: () => {
-                                        "ຍົກເລີກ": false,
-                                        "ຕົກລົງ": true,
-                                      });
+                                    for (var element in booksTobeOrder) {
+                                      final order = OrderModel(
+                                        bookId: element[1].toString(),
+                                        price: element[3] as int,
+                                        amount: element[2] as int,
+                                        orderDate: DateTime.now().add(
+                                          const Duration(minutes: 1),
+                                        ),
+                                      );
+                                      await LocalDatabaseService.instance
+                                          .add<OrderModel>(
+                                              HiveBox.order, order);
+                                    }
+                                    for (var i in toDeleteIndex) {
+                                      await LocalDatabaseService.instance
+                                          .deleteAt<AddToCartModel>(
+                                              HiveBox.addTocart, i);
+                                    }
 
-                              if (isTrue!) {
-                                Navigator.popUntil(
-                                    context, (route) => route.isFirst);
-                                context.read<PageNotifier>().changePage(3);
-                              } else {
-                                return;
-                              }
-                            },
+                                    await showGenericDialog<bool>(
+                                        context: context,
+                                        title: "ສຳເລັດ",
+                                        content: 'ຂອບໃຈທີ່ໄວ້ວາງໃຈເຮົາ',
+                                        optionsBuilder: () => {
+                                              "ຕົກລົງ": true,
+                                            });
+
+                                    Navigator.popUntil(
+                                        context, (route) => route.isFirst);
+                                    context.read<PageNotifier>().changePage(3);
+                                  },
                           ),
                         ),
                       ],

@@ -20,21 +20,11 @@ class SearchBloc {
   factory SearchBloc({required Iterable<BookModel> books}) {
     final searchChange = BehaviorSubject<String?>();
 
-    // final test = searchChange
-    //     .distinct()
-    //     .debounceTime(const Duration(milliseconds: 100))
-    //     .switchMap((value) {
-    //   return Stream.value(value);
-    // });
-    // test.listen((event) {
-    //   print(event);
-    // });
-
     final results = searchChange
         .distinct()
         .debounceTime(const Duration(milliseconds: 300))
         .switchMap<Iterable<BookModel>?>((searchTerm) {
-      if (searchTerm == null || searchTerm.isEmpty) {
+      if (searchTerm == null || searchTerm.toString().trim().isEmpty) {
         return Stream<Iterable<BookModel>?>.value(null);
       } else {
         return Rx.fromCallable(() => books

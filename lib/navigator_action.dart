@@ -52,7 +52,7 @@ class _NaviagtorActionState extends State<NaviagtorAction> {
             SalomonBottomBarItem(
               icon: const Icon(
                 Icons.home_outlined,
-                size: 28,
+                size: 30,
               ),
               title: const Text(
                 "ໜ້າຫຼັກ",
@@ -65,7 +65,7 @@ class _NaviagtorActionState extends State<NaviagtorAction> {
               selectedColor: ConstantColor.primaryColor,
               activeIcon: const Icon(
                 Icons.home,
-                size: 28,
+                size: 30,
               ),
             ),
 

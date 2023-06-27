@@ -116,7 +116,7 @@ class BooksUserPurchedSection extends StatelessWidget {
         ),
         const SizedBox(height: 6),
         SizedBox(
-          height: 260,
+          height: 270,
           child: bookOrder.isEmpty
               ? Center(
                   child: Column(
