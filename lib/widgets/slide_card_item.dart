@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutterschool_bookshop_app/models/book_model.dart';
+import 'package:flutterschool_bookshop_app/utils/utils.dart';
 
 import '../constants/constant_colors.dart';
 import '../constants/constant_font_size.dart';
@@ -11,11 +12,17 @@ class BookCardItem extends StatefulWidget {
     required this.width,
     this.isHasBottomSection = false,
     this.bookDetail,
+    this.initialAmount = 1,
+    this.increateAmountCallback,
+    required this.index,
   });
 
   final double width;
   final bool isHasBottomSection;
   final BookModel? bookDetail;
+  final int initialAmount;
+  final Function? increateAmountCallback;
+  final int index;
 
   @override
   State<BookCardItem> createState() => _BookCardItemState();
@@ -23,6 +30,12 @@ class BookCardItem extends StatefulWidget {
 
 class _BookCardItemState extends State<BookCardItem> {
   int bookAmount = 1;
+  @override
+  void initState() {
+    bookAmount = widget.initialAmount;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -58,7 +71,6 @@ class _BookCardItemState extends State<BookCardItem> {
                         ],
                       ),
                       child: Image.network(
-                        
                         widget.bookDetail == null
                             ? "https://m.media-amazon.com/images/I/81bGKUa1e0L._AC_UF1000,1000_QL80_.jpg"
                             : widget.bookDetail!.imageUrl,
@@ -96,11 +108,13 @@ class _BookCardItemState extends State<BookCardItem> {
                         Flexible(
                           child: Container(
                             padding: const EdgeInsets.only(left: 3),
-                            child: const Text(
-                              'In this action-packed novel from a Booker Prize winner, a collective of activist hello activity',
+                            child: Text(
+                              widget.bookDetail == null
+                                  ? 'In this action-packed novel from a Booker Prize winner, a collective of activist hello activity'
+                                  : widget.bookDetail!.smallDetail,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 3,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: ConstantColor.grey,
                                 fontSize: ConstantFontSize.headerSize6,
                                 height: 1.2,
@@ -112,7 +126,9 @@ class _BookCardItemState extends State<BookCardItem> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             ...List.generate(
-                              4,
+                              widget.bookDetail == null
+                                  ? 4
+                                  : widget.bookDetail!.rating,
                               (index) => ConstrainedBox(
                                 constraints: const BoxConstraints(
                                   maxWidth: 14,
@@ -142,17 +158,19 @@ class _BookCardItemState extends State<BookCardItem> {
                 Row(
                   children: [
                     RichText(
-                      text: const TextSpan(
+                      text: TextSpan(
                         text: "  ລາຄາ : ",
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontFamily: "NotoSansLao",
                           color: ConstantColor.grey,
                           fontSize: ConstantFontSize.headerSize3,
                         ),
                         children: [
                           TextSpan(
-                            text: "150,000 LAK",
-                            style: TextStyle(
+                            text: widget.bookDetail == null
+                                ? "150,000 LAK"
+                                : "${Utils.getCurrency(widget.bookDetail!.price)} LAK",
+                            style: const TextStyle(
                               fontFamily: "NotoSansLao",
                               color: ConstantColor.grey,
                               fontSize: ConstantFontSize.headerSize3,
@@ -171,6 +189,10 @@ class _BookCardItemState extends State<BookCardItem> {
                         setState(() {
                           if (bookAmount > 1) {
                             bookAmount--;
+                            if (widget.increateAmountCallback != null) {
+                              widget.increateAmountCallback!(
+                                  widget.index, bookAmount);
+                            }
                           }
                         });
                       },
@@ -197,6 +219,10 @@ class _BookCardItemState extends State<BookCardItem> {
                       onTap: () {
                         setState(() {
                           bookAmount++;
+                          if (widget.increateAmountCallback != null) {
+                            widget.increateAmountCallback!(
+                                widget.index, bookAmount);
+                          }
                         });
                       },
                       child: const Icon(

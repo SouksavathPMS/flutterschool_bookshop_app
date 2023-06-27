@@ -1,21 +1,28 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutterschool_bookshop_app/hive_models/add_fav_model.dart';
+import 'package:flutterschool_bookshop_app/hive_models/add_to_cart_model.dart';
 import 'package:flutterschool_bookshop_app/utils/utils.dart';
+import 'package:flutterschool_bookshop_app/widgets/display_box_widget.dart';
+import 'package:hive/hive.dart';
 
 import '../common/custom_cart_badge.dart';
 import '../constants/constant_colors.dart';
 import '../constants/constant_font_size.dart';
 import '../constants/dummy_data.dart';
 import '../constants/hive_box.dart';
+import '../dialogs/generic_dialogs.dart';
 import '../models/book_model.dart';
 import '../services/local_database_service.dart';
 import '../widgets/main_button.dart';
+import 'cart_page.dart';
 
 class BookDetailPage extends StatefulWidget {
   const BookDetailPage({
     super.key,
-    this.bookId = "c607cd7b-30c1-4d65-9cc7-35a4865c5212",
+    required this.bookId,
   });
 
   final String bookId;
@@ -61,8 +68,17 @@ class _BookDetailPageState extends State<BookDetailPage> {
               height: 210,
               child: Row(
                 children: [
-                  Expanded(
-                    flex: 5,
+                  Container(
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: ConstantColor.darkGrey.withOpacity(.3),
+                          blurRadius: 6,
+                          spreadRadius: 0,
+                          offset: const Offset(-4, 4), // Shadow position
+                        ),
+                      ],
+                    ),
                     child: Image.network(
                       aBook.imageUrl,
                       fit: BoxFit.cover,
@@ -178,7 +194,8 @@ class _BookDetailPageState extends State<BookDetailPage> {
                                 ),
                                 const SizedBox(width: 4),
                                 GestureDetector(
-                                  onTap: () {
+                                  onTap: () async {
+                                    LocalDatabaseService.instance;
                                     setState(() {
                                       bookAmount++;
                                     });
@@ -190,27 +207,46 @@ class _BookDetailPageState extends State<BookDetailPage> {
                                 )
                               ],
                             ),
-                            GestureDetector(
-                              onTap: () async {
-                                setState(() {
-                                  isFav = !isFav;
-                                });
-                                if (isFav) {
-                                  final addFavInfo =
-                                      AddFavModel(bookId: widget.bookId);
-                                  await LocalDatabaseService.instance
-                                      .add<AddFavModel>(
-                                          HiveBox.addFav, addFavInfo);
-                                } else {
-                                  
-                                }
-                              },
-                              child: Icon(
-                                Icons.favorite,
-                                size: 30,
-                                color: isFav
-                                    ? ConstantColor.primaryColor
-                                    : ConstantColor.grey.withOpacity(.4),
+                            DisplayBoxWidget<AddFavModel>(
+                              hiveBox: HiveBox.addFav,
+                              child: (context, data) => GestureDetector(
+                                onTap: () async {
+                                  if (!data
+                                      .map((e) => e.bookId)
+                                      .contains(aBook.id.toString())) {
+                                    final addFavInfo = AddFavModel(
+                                        bookId: widget.bookId,
+                                        price: aBook.price);
+                                    await LocalDatabaseService.instance
+                                        .add<AddFavModel>(
+                                            HiveBox.addFav, addFavInfo);
+                                  } else {
+                                    List<AddFavModel> newWithDeleteList = data
+                                        .map((e) => e)
+                                        .where((element) =>
+                                            element.bookId != widget.bookId)
+                                        .toList();
+
+                                    await LocalDatabaseService.instance
+                                        .deleteAll<AddFavModel>(
+                                            HiveBox.addFav, data);
+
+                                    for (var element in newWithDeleteList) {
+                                      await LocalDatabaseService.instance
+                                          .add<AddFavModel>(
+                                              HiveBox.addFav, element);
+                                    }
+                                  }
+                                },
+                                child: Icon(
+                                  Icons.favorite,
+                                  size: 30,
+                                  color: data
+                                          .map((e) => e.bookId)
+                                          .contains(aBook.id.toString())
+                                      ? ConstantColor.primaryColor
+                                      : ConstantColor.grey.withOpacity(.4),
+                                ),
                               ),
                             )
                           ],
@@ -291,8 +327,74 @@ class _BookDetailPageState extends State<BookDetailPage> {
             children: [
               Expanded(
                 child: MainButton(
-                  title: "ສັ່ງຊື້ປື້ມຈຳນວນ : $bookAmount",
-                  onPressed: () {},
+                  title: "ເພີ່ມເຂົ້າລາຍການສັ່ງຊື່ຈຳນວນ : $bookAmount",
+                  onPressed: () async {
+                    final addToCartInfo = AddToCartModel(
+                      bookId: widget.bookId,
+                      amount: bookAmount,
+                      price: aBook.price,
+                    );
+                    final aleadyIncartList =
+                        Hive.box<AddToCartModel>(HiveBox.addTocart.name)
+                            .values
+                            .toList();
+
+                    if (aleadyIncartList.contains(addToCartInfo)) {
+                      final oldData = aleadyIncartList.firstWhere(
+                        (element) => element == addToCartInfo,
+                        orElse: () =>
+                            AddToCartModel(bookId: "N/A", amount: 0, price: 0),
+                      );
+                      final toAddToCartInfo = AddToCartModel(
+                        bookId: widget.bookId,
+                        amount: oldData.amount + bookAmount,
+                        price: aBook.price,
+                      );
+                      await LocalDatabaseService.instance.putAt<AddToCartModel>(
+                          HiveBox.addTocart,
+                          aleadyIncartList.indexOf(
+                            aleadyIncartList.firstWhere(
+                              (element) => element == addToCartInfo,
+                              orElse: () => AddToCartModel(
+                                bookId: "N/A",
+                                amount: 0,
+                                price: aBook.price,
+                              ),
+                            ),
+                          ),
+                          toAddToCartInfo);
+                    } else {
+                      await LocalDatabaseService.instance
+                          .add<AddToCartModel>(HiveBox.addTocart, addToCartInfo)
+                          .then((_) async {
+                        bookAmount = 1;
+                      });
+                    }
+
+                    final isTrue = await showGenericDialog<bool>(
+                        context: context,
+                        title: "ສຳເລັດ",
+                        content:
+                            'ເພີ່ມເຂົ້າກະຕ່າສຳເລັດກົດ"ຕົກລົງ"ເພື່ອສຳເລັດການສັ່ງຊື້',
+                        optionsBuilder: () => {
+                              "ຍົກເລີກ": false,
+                              "ຕົກລົງ": true,
+                            });
+
+                    if (isTrue!) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const CartPage(),
+                        ),
+                      );
+                    } else {
+                      return;
+                    }
+
+                    // print(aleadyIncartList
+                    //     .where((element) => element == addToCartInfo));
+                  },
                 ),
               ),
               const Padding(

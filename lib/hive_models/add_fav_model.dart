@@ -8,8 +8,11 @@ part 'add_fav_model.g.dart';
 class AddFavModel {
   @HiveField(0)
   final String bookId;
+  @HiveField(1)
+  final int price;
 
   AddFavModel({
     required this.bookId,
+    required this.price,
   });
 }

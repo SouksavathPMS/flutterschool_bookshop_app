@@ -60,7 +60,7 @@ class CategoryDetailPage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const BookDetailPage(),
+                    builder: (context) => BookDetailPage(bookId: aBook.id),
                   ),
                 );
               },

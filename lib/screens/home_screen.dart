@@ -72,6 +72,7 @@ class HomeScreen extends StatelessWidget {
                   );
                 },
                 child: BookCardItem(
+                  index: index,
                   width: width,
                   bookDetail: recommdedBooks.elementAt(index),
                 ),

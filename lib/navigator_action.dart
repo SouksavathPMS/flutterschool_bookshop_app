@@ -29,10 +29,7 @@ class _NaviagtorActionState extends State<NaviagtorAction> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: GetAppBar.instance.getAppbar(currentPage: _currentIndex),
-      body: IndexedStack(
-        index: _currentIndex,
-        children: _currentScreen,
-      ),
+      body: _currentScreen[_currentIndex],
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: SalomonBottomBar(

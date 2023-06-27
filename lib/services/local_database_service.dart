@@ -1,4 +1,5 @@
 import 'package:flutterschool_bookshop_app/hive_models/add_fav_model.dart';
+import 'package:flutterschool_bookshop_app/hive_models/add_to_cart_model.dart';
 import 'package:hive_flutter/adapters.dart';
 import '../constants/hive_box.dart';
 
@@ -21,12 +22,14 @@ class LocalDatabaseService {
     // register adapters
     // TODO: I think this path need to be more dynamic, so we can you this service in every projects
     Hive.registerAdapter(AddFavModelAdapter());
+    Hive.registerAdapter(AddToCartModelAdapter());
 
     // open boxes
     // TODO: the same above
     await Future.wait(
       [
         Hive.openBox<AddFavModel>(HiveBox.addFav.name),
+        Hive.openBox<AddToCartModel>(HiveBox.addTocart.name),
       ],
     );
   }
@@ -69,9 +72,9 @@ class LocalDatabaseService {
     await box.deleteAt(index);
   }
 
-  Future<void> deleteWhere<T>(HiveBox hiveBox, String id) async {
+  Future<void> deleteAll<T>(HiveBox hiveBox, Iterable data) async {
     final box = Hive.box<T>(hiveBox.name);
-    await box.deleteAll([]);
+    await box.clear();
   }
 
   /// ### Get data by index

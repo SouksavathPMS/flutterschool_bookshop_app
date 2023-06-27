@@ -6,7 +6,7 @@ import '../constants/hive_box.dart';
 /// re-use display hive box data
 class DisplayBoxWidget<T> extends StatelessWidget {
   final HiveBox hiveBox;
-  final Widget Function(BuildContext context, int index, T data) child;
+  final Widget Function(BuildContext context, List<T> data) child;
   const DisplayBoxWidget({
     super.key,
     required this.hiveBox,
@@ -18,15 +18,8 @@ class DisplayBoxWidget<T> extends StatelessWidget {
     return ValueListenableBuilder<Box<T>>(
       valueListenable: Hive.box<T>(hiveBox.name).listenable(),
       builder: (context, box, widget) {
-        return Center(
-          child: ListView.builder(
-            itemCount: box.values.length,
-            itemBuilder: (context, index) {
-              T data = box.values.toList()[index];
-              return child(context, index, data);
-            },
-          ),
-        );
+        List<T> data = box.values.toList();
+        return child(context, data);
       },
     );
   }

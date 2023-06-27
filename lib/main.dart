@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutterschool_bookshop_app/constants/constant_colors.dart';
 import 'package:flutterschool_bookshop_app/pages/getting_start_page.dart';
+import 'package:flutterschool_bookshop_app/services/local_database_service.dart';
 
-void main() {
+void main() async {
+  await LocalDatabaseService.instance.initialize();
   runApp(const MyApp());
 }
 

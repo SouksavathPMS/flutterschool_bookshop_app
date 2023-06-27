@@ -66,6 +66,7 @@ class _RecommededBooksPageState extends State<RecommededBooksPage> {
             child: SizedBox(
               height: 170,
               child: BookCardItem(
+                index: index,
                 width: width * .96,
                 bookDetail: widget.bookRecommdedList.elementAt(index),
               ),
