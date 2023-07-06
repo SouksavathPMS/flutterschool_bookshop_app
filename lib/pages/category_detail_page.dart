@@ -49,7 +49,7 @@ class CategoryDetailPage extends StatelessWidget {
         primary: false,
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
-        childAspectRatio: 9 / 18,
+        childAspectRatio: 9 / 20,
         crossAxisCount: 3,
         children: List.generate(
           bookList.length,
@@ -68,7 +68,7 @@ class CategoryDetailPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    height: 156,
+                    height: 155,
                     child: Image.network(
                       aBook.imageUrl,
                       fit: BoxFit.cover,

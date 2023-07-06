@@ -310,7 +310,7 @@ class _BookDetailPageState extends State<BookDetailPage> {
       ),
       bottomNavigationBar: Container(
         padding: const EdgeInsets.only(top: 10, right: 12, left: 12),
-        height: 90,
+        // height: 90,
         decoration: BoxDecoration(
           color: ConstantColor.white,
           boxShadow: [

@@ -108,7 +108,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                               child: BookCardItem(
                                 increateAmountCallback: increateAmountCallBack,
                                 index: index,
-                                width: width * .96,
+                                width: width * .94,
                                 isHasBottomSection: true,
                                 bookDetail: DummyData.booksList
                                     .map((item) => BookModel.fromJson(item))

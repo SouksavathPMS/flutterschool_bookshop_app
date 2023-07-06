@@ -56,7 +56,7 @@ class DummyData {
           "Sapiens explores the history of our species, from the emergence of Homo sapiens in Africa to the present day. It examines key revolutions that shaped human existence, such as the Cognitive Revolution, the Agricultural Revolution, and the Scientific Revolution. This book offers a thought-provoking perspective on the course of human history and the challenges we face in the future.",
       "small_detail":
           "Sapiens takes readers on a journey through the history of humankind, providing insights into our shared past and the forces that have shaped our present reality.",
-      "is_recommended": true
+      "is_recommended": false
     },
     {
       "id": "c36d07db-0c8f-4d27-9de7-8a7baffb8125",
@@ -312,5 +312,212 @@ class DummyData {
           "Harry Potter and the Sorcerer's Stone introduces readers to a world of enchantment, friendship, and adventure, captivating both children and adults alike.",
       "is_recommended": false
     },
+    {
+      "id": "53bb7a49-dca8-4a2a-be78-d3b62a49b70a",
+      "title": "The Rules of People",
+      "category": 3,
+      "imageUrl":
+          "https://m.media-amazon.com/images/I/41EIIwv9mdL._AC_UF1000,1000_QL80_.jpg",
+      "price": 225000,
+      "author": "Richard Templar",
+      "rating": 4,
+      "description":
+          "We all know someone who is a natural ‘people person’. They seem to understand what people really want, what they really think and what they really mean. They can effortlessly get people onside, and keep them happy and motivated.",
+      "small_detail":
+          "Is there something they know that the rest of us don't? Is it something we can all learn? The answer is a resounding yes. They know The Rules of People.",
+      "is_recommended": false
+    },
+    {
+      "id": "6728bc65-b5bc-4b3e-9a4f-f5bde10adf7e",
+      "title": "Rich Dad Poor Dad",
+      "category": 2,
+      "imageUrl":
+          "https://m.media-amazon.com/images/I/81bsw6fnUiL._SL1500_.jpg",
+      "price": 140000,
+      "author": "Robert T. Kiyosaki",
+      "rating": 4,
+      "description":
+          "It's been nearly 25 years since Robert Kiyosaki’s Rich Dad Poor Dad first made waves in the Personal Finance arena. It has since become the #1 Personal Finance book of all time... translated into dozens of languages and sold around the world..",
+      "small_detail":
+          "Rich Dad Poor Dad is Robert's story of growing up with two dads — his real father and the father of his best friend, his rich dad — and the ways in which both men shaped his thoughts about money and investing. The book explodes the myth that you need to earn a high income to be rich and explains the difference between working for money and having your money work for you.",
+      "is_recommended": true
+    },
+    {
+      "id": "d9ea761f-6b96-48fb-b591-0956d36df62a",
+      "title": "Focus: The Hidden Driver of Excellence",
+      "category": 1,
+      "imageUrl":
+          "https://m.media-amazon.com/images/I/71nvYbMAE6L._SL1500_.jpg",
+      "price": 280000,
+      "author": "Daniel Goleman",
+      "rating": 4,
+      "description":
+          "In Focus, Psychologist and journalist Daniel Goleman, author of the #1 international bestseller Emotional Intelligence, offers a groundbreaking look at today’s scarcest resource and the secret to high performance and fulfillment: attention.",
+      "small_detail":
+          "Combining cutting-edge research with practical findings, Focus delves into the science of attention in all its varieties, presenting a long overdue discussion of this little-noticed and under-rated mental asset. In an era of unstoppable distractions, Goleman persuasively argues that now more than ever we must learn to sharpen focus if we are to survive in a complex world.",
+      "is_recommended": false
+    },
+    {
+      "id": "c607cd7b-30c1-4d65-9cc7-35a4865c5212",
+      "title": "The Law of Success: In Sixteen Lessons",
+      "category": 2,
+      "imageUrl":
+          "https://m.media-amazon.com/images/I/71iAqHSo8dL._SL1500_.jpg",
+      "price": 480000,
+      "author": "Napoleon Hill",
+      "rating": 4,
+      "description":
+          "Originally published in 1928, this is the book that began Napoleon Hill's self-help odyssey. Hill queried dozens of people about the keys to their prosperity and organized his findings into 16 principles. Each principle marks a chapter of this book, forming a methodology for employing untapped 'mind-power' that leads to success.",
+      "small_detail":
+          "Hill was well known for researching what made millionaires different from the common man. The sixteen lessons in this book perfectly crystallize everything you will need to know to succeed during these hard economic times. Many of today's best known self-help books take their core concepts form this book",
+      "is_recommended": false
+    },
+    {
+      "id": "f8423351-39b0-465b-8897-789a6ebdabeb",
+      "title": "Thinking, Fast and Slow",
+      "category": 3,
+      "imageUrl":
+          "https://m.media-amazon.com/images/I/71wvKXWfcML._SL1500_.jpg",
+      "price": 380000,
+      "author": "Daniel Kahneman",
+      "rating": 4,
+      "description":
+          "Major New York Times bestsellerWinner of the National Academy of Sciences Best Book Award in 2012 Selected by the New York Times Book Review as one of the ten best books of 2011 A Globe and Mail Best Books of the Year 2011 Title One of The Economist's 2011 Books of the Year One of The Wall Street Journal's Best Nonfiction Books of the Year 2011 2013 Presidential Medal of Freedom Recipient Kahneman's work with Amos Tversky is the subject of Michael Lewis's The Undoing Project: A Friendship That Changed Our Minds",
+      "small_detail":
+          "In his mega bestseller, Thinking, Fast and Slow, Daniel Kahneman, the renowned psychologist and winner of the Nobel Prize in Economics, takes us on a groundbreaking tour of the mind and explains the two systems that drive the way we think.",
+      "is_recommended": false
+    },
+    {
+      "id": "af5d8f00-da2e-414e-92c9-c9d469ad42db",
+      "title": "The Richest Man in Babylon",
+      "category": 4,
+      "imageUrl":
+          "https://m.media-amazon.com/images/I/715WIO8K1JL._SL1500_.jpg",
+      "price": 240000,
+      "author": "George S. Clason",
+      "rating": 3,
+      "description":
+          "Beloved by millions, this timeless classic holds the key to all you desire and everything you wish to accomplish. This is the book that reveals the secret to personal wealth.",
+      "small_detail":
+          "Countless readers have been helped by the famous “Babylonian parables,” hailed as the greatest of all inspirational works on the subject of thrift, financial planning, and personal wealth. In language as simple as that found in the Bible, these fascinating and informative stories set you on a sure path to prosperity and its accompanying joys.",
+      "is_recommended": false
+    },
+    {
+      "id": "cae919db-6430-40d1-922c-f836a7a45fa1",
+      "title": "The 48 Laws of Power",
+      "category": 2,
+      "imageUrl":
+          "https://m.media-amazon.com/images/I/71zw9ZBV7sL._SL1500_.jpg",
+      "price": 320000,
+      "author": "Robert Greene",
+      "rating": 2,
+      "description":
+          "Amoral, cunning, ruthless, and instructive, this multi-million-copy New York Times bestseller is the definitive manual for anyone interested in gaining, observing, or defending against ultimate control – from the author of The Laws of Human Nature.",
+      "small_detail":
+          "In the book that People magazine proclaimed “beguiling” and “fascinating,” Robert Greene and Joost Elffers have distilled three thousand years of the history of power into 48 essential laws by drawing from the philosophies of Machiavelli, Sun Tzu, and Carl Von Clausewitz and also from the lives of figures ranging from Henry Kissinger to P.T. Barnum.",
+      "is_recommended": false
+    },
+    {
+      "id": "0f533e65-b585-4fe1-9af0-d4239368d101",
+      "title": "The Psychology of Money:",
+      "category": 1,
+      "imageUrl":
+          "https://m.media-amazon.com/images/I/81FIHfiU9IL._SL1500_.jpg",
+      "price": 200000,
+      "author": "Morgan Housel",
+      "rating": 3,
+      "description":
+          "Doing well with money isn’t necessarily about what you know. It’s about how you behave. And behavior is hard to teach, even to really smart people.",
+      "small_detail":
+          "Money—investing, personal finance, and business decisions—is typically taught as a math-based field, where data and formulas tell us exactly what to do. But in the real world people don’t make financial decisions on a spreadsheet. They make them at the dinner table, or in a meeting room, where personal history, your own unique view of the world, ego, pride, marketing, and odd incentives are scrambled together.",
+      "is_recommended": false
+    },
+    {
+      "id": "423b88b1-a839-4e63-8988-4a725202a264",
+      "title": "You Are The Team",
+      "category": 2,
+      "imageUrl":
+          "https://m.media-amazon.com/images/I/61p3Ky770IL._SL1360_.jpg",
+      "price": 180000,
+      "author": "Michael G. Rogers",
+      "rating": 4,
+      "description":
+          "Imagine a team with completely committed and selfless collaborative team members. Imagine a team who cared deeply and passionately about team results. Imagine a team where you (as a leader or a teammate) were free from the burden of dealing with team politics, drama, and distractions. Imagine a team where egos are checked at the door, and shared commitment to team excellence takes precedence. Is it possible? Yes!",
+      "small_detail":
+          "Drawing on decades of expertise, visionary leader and team expert Michael G. Rogers presents an unparalleled approach to team development that sets this book apart from any other in the leadership genre.",
+      "is_recommended": false
+    },
+    {
+      "id": "b73fd01e-65fc-4e24-b8fb-8161d90fdb3c",
+      "title": "Your Next Five Moves",
+      "category": 1,
+      "imageUrl": "https://m.media-amazon.com/images/I/51C1EdbZwLL.jpg",
+      "price": 260000,
+      "author": "Patrick Bet-David",
+      "rating": 4,
+      "description":
+          "From the creator of Valuetainment, the number-one YouTube channel for entrepreneurs, and “one of the most exciting thinkers” (Ray Dalio, author of Principles) in business today, comes a practical and effective guide for thinking more clearly and achieving your most audacious professional goals..",
+      "small_detail":
+          "Both successful entrepreneurs and chess grandmasters have the vision to look at the pieces in front of them and anticipate their next five moves. In this book, Patrick Bet-David “helps entrepreneurs understand exactly what they need to do next” (Brian Tracy, author of Eat That Frog!) by translating this skill into a valuable methodology. Whether you feel like you’ve hit a wall, lost your fire, or are looking for innovative strategies to take your business to the next level, Your Next Five Moves has the answers.",
+      "is_recommended": false
+    },
+    {
+      "id": "3d924219-f4b7-4db2-95c1-e07bfa94e786",
+      "title": "Starting a Business QuickStart Guide",
+      "category": 2,
+      "imageUrl":
+          "https://m.media-amazon.com/images/I/61ci7UmM4SL._SL1360_.jpg",
+      "price": 200000,
+      "author": "Ken Colwell PhD MBA",
+      "rating": 4,
+      "description":
+          "In his comprehensive Starting a Business QuickStart Guide, Ken Colwell concisely presents the core fundamentals that all new entrepreneurs need to know to get started, find success, and live the life of their dreams..",
+      "small_detail":
+          "Business and entrepreneurship students, small business owners, managers, and soon-to-be entrepreneurs will all find a wealth of value within the pages of the Starting a Business QuickStart Guide.",
+      "is_recommended": false
+    },
+    {
+      "id": "b7adccd4-9108-4611-a731-01392e9044d2",
+      "title": "CEO Excellence",
+      "category": 5,
+      "imageUrl": "https://m.media-amazon.com/images/I/611TevMxayL._SY466_.jpg",
+      "price": 300000,
+      "author": "Carolyn Dewar",
+      "rating": 3,
+      "description":
+          "From the world’s most influential management consulting firm, McKinsey & Company, this is an insight-packed, revelatory look at how the best CEOs do their jobs based on extensive interviews with today’s most successful corporate leaders—including chiefs at Netflix, JPMorgan Chase, General Motors, and Sony.",
+      "small_detail":
+          "Being a CEO at any of the world’s largest companies is among the most challenging roles in business. Billions, and even trillions, are at stake—and the fates of tens of thousands of employees often hang in the balance. Yet, even when “can’t miss” high-achievers win the top job, very few excel. Thirty percent of Fortune 500 CEOs last fewer than three years, and two out of five new CEOs are perceived to be failing within eighteen months.",
+      "is_recommended": false
+    },
+    {
+      "id": "59c5d48e-aff3-4696-9def-876588fb1aea",
+      "title": "The ChatGPT Millionaire",
+      "category": 4,
+      "imageUrl":
+          "https://m.media-amazon.com/images/I/41MpIX1MRAL._SY445_SX342_.jpg",
+      "price": 240000,
+      "author": "Neil Dagger",
+      "rating": 4,
+      "description":
+          "In this step-by-step guide I will share the secrets of how to: \n- Create passive income sources that keep on giving - in minutes. \n- Impress your customers by getting their projects finished extremely fast with high quality (with zero effort!) \n- Research, create and promote engaging content effortlessly. - Get time back to focus on what really matters.",
+      "small_detail":
+          "This book has specific examples of ChatGPT prompts and responses that will help you understand practical usage and give you templates you can start using immediately!",
+      "is_recommended": false
+    },
+    {
+      "id": "7ddc43a8-a6e6-4a97-a20c-04803bb244f0",
+      "title": "Elon Musk: Tesla, SpaceX, and the Quest for a Fantastic Future",
+      "category": 3,
+      "imageUrl": "https://m.media-amazon.com/images/I/51IQzkj0+NL.jpg",
+      "price": 320000,
+      "author": "Ashlee Vance",
+      "rating": 3,
+      "description":
+          "In the spirit of Steve Jobs and Moneyball, Elon Musk is both an illuminating and authorized look at the extraordinary life of one of Silicon Valley's most exciting, unpredictable, and ambitious entrepreneurs - a real-life Tony Stark - and a fascinating exploration of the renewal of American invention and its new makers.",
+      "small_detail":
+          "Elon Musk spotlights the technology and vision of Elon Musk, the renowned entrepreneur and innovator behind SpaceX, Tesla, and SolarCity, who sold one of his Internet companies, PayPal, for \$1.5 billion. Ashlee Vance captures the full spectacle and arc of the genius' life and work, from his tumultuous upbringing in South Africa and flight to the United States to his dramatic technical innovations and entrepreneurial pursuits.",
+      "is_recommended": false
+    }
   ];
 }

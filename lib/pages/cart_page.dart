@@ -135,7 +135,7 @@ class _CartPageState extends State<CartPage> {
                               increateAmountCallback: increateAmountCallBack,
                               index: index,
                               initialAmount: bookItem.amount,
-                              width: width * .96,
+                              width: width * .94,
                               isHasBottomSection: true,
                               bookDetail: DummyData.booksList
                                   .map((item) => BookModel.fromJson(item))
@@ -299,7 +299,7 @@ class _CartPageState extends State<CartPage> {
                                         price: element[3] as int,
                                         amount: element[2] as int,
                                         orderDate: DateTime.now().add(
-                                          const Duration(minutes: 1),
+                                          const Duration(seconds: 5),
                                         ),
                                       );
                                       await LocalDatabaseService.instance
